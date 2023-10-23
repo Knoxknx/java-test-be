@@ -1,6 +1,7 @@
 package com.tecnicaltest.technicaltest.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class Phone {
   private String cityCode;
   @Column(name = "COUNTRY_CODE")
   private String countryCode;
+  @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "USER_ID")
   private User user;
