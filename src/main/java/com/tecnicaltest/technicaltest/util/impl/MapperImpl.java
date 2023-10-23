@@ -1,9 +1,10 @@
-package com.tecnicaltest.technicaltest.util;
+package com.tecnicaltest.technicaltest.util.impl;
 
 import com.tecnicaltest.technicaltest.model.domain.UserUpdateVO;
 import com.tecnicaltest.technicaltest.model.domain.UserVO;
 import com.tecnicaltest.technicaltest.model.dto.UserDTO;
 import com.tecnicaltest.technicaltest.model.entity.User;
+import com.tecnicaltest.technicaltest.util.interfaces.IMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,12 @@ public class MapperImpl implements IMapper {
     }
 
     public User setUserDB(UserUpdateVO userUpdateVO, User userDB) {
+        userUpdateVO.changeUpdateDate();
         userDB.setName(userUpdateVO.getName());
         userDB.setEmail(userUpdateVO.getEmail());
         userDB.setPassword(userUpdateVO.getPassword());
         userDB.setIsActive(userUpdateVO.getIsActive());
+        userDB.setUpdatedAt(userUpdateVO.getUpdatedAt());
         return userDB;
     }
 

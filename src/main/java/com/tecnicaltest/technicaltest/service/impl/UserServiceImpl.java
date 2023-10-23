@@ -35,4 +35,10 @@ public class UserServiceImpl implements IUserService {
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<User> forEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

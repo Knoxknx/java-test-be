@@ -10,12 +10,12 @@ Desarrollar una aplicación que exponga una API RESTfull de creación de usuario
 #### Lista de tareas
 - [ ] Registro
   - [ ] Uso de JWT
-  - [ ] Registro de fecha en creación
-  - [ ] Reconocer correos ya registrados
+  - [x] Registro de fecha en creación
+  - [x] Reconocer correos ya registrados
 - [ ] Login
-- [ ] Update
-  - [ ] Registro de fecha en update
-- [ ] Validar con status code correspondientes
+- [x] Update
+  - [x] Registro de fecha en update
+- [x] Validar con status code correspondientes
 - [ ] Validar expresiones regulares para correo
 - [ ] Validar estandar de contraseña (Una mayúscula,
   letras minúsculas, y dos números)

@@ -1,4 +1,4 @@
-package com.tecnicaltest.technicaltest.util;
+package com.tecnicaltest.technicaltest.util.interfaces;
 
 import com.tecnicaltest.technicaltest.model.domain.UserUpdateVO;
 import com.tecnicaltest.technicaltest.model.domain.UserVO;
