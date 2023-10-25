@@ -1,7 +1,6 @@
 package com.tecnicaltest.technicaltest.controller;
 
 import com.tecnicaltest.technicaltest.model.domain.UserVO;
-import com.tecnicaltest.technicaltest.model.dto.LoginUserDto;
 import com.tecnicaltest.technicaltest.model.entity.User;
 import com.tecnicaltest.technicaltest.response.LoginResponse;
 import com.tecnicaltest.technicaltest.service.IUserService;

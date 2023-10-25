@@ -1,7 +1,5 @@
 package com.tecnicaltest.technicaltest.model.entity;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,7 +38,6 @@ public class User implements UserDetails {
   @Column(name = "IS_ACTIVE")
   private Boolean isActive;
 
-//  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Phone> phones;
 
