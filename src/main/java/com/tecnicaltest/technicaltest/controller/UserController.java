@@ -30,30 +30,31 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private IUserService userService;
+  @Autowired
+  private IUserService userService;
 
-    @Autowired
-    private IMapper mapper;
-    @Autowired
-    private IUserValidation validation;
+  @Autowired
+  private IMapper mapper;
+  @Autowired
+  private IUserValidation validation;
 
-    @GetMapping("/")
-    public ResponseEntity<List<User>> getAll() {
-        return ResponseEntity.ok(userService.getAll());
-    }
+  @GetMapping("/")
+  public ResponseEntity<List<User>> getAll() {
+    return ResponseEntity.ok(userService.getAll());
+  }
 
-    @PostMapping("/")
-    public ResponseEntity<?> create(@RequestBody UserVO userVO) {
-        User user = mapper.userVoToEntity(userVO);
-        if (validation.isEmailExist(user)) return ResponseEntity.badRequest().body(Collections.singletonMap("msg", "El correo ya se encuentra registrado"));
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.entityToDto(userService.save(user)));
-    }
+  @PostMapping("/")
+  public ResponseEntity<?> create(@RequestBody UserVO userVO) {
+    User user = mapper.userVoToEntity(userVO);
+    if (validation.isEmailExist(user))
+      return ResponseEntity.badRequest().body(Collections.singletonMap("msg", "El correo ya se encuentra registrado"));
+    return ResponseEntity.status(HttpStatus.CREATED).body(mapper.entityToDto(userService.save(user)));
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> update(@RequestBody UserUpdateVO userUpdateVO, @PathVariable Long id) {
-        Optional<User> userDB = userService.findById(id);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(mapper.setUserDB(userUpdateVO, userDB.get())));
-    }
+  @PutMapping("/{id}")
+  public ResponseEntity<User> update(@RequestBody UserUpdateVO userUpdateVO, @PathVariable Long id) {
+    Optional<User> userDB = userService.findById(id);
+    return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(mapper.setUserDB(userUpdateVO, userDB.get())));
+  }
 
 }

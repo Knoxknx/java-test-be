@@ -1,39 +1,50 @@
 package com.tecnicaltest.technicaltest.controller;
 
+import com.tecnicaltest.technicaltest.model.domain.UserVO;
 import com.tecnicaltest.technicaltest.model.dto.LoginUserDto;
-import com.tecnicaltest.technicaltest.model.dto.RegisterUserDto;
 import com.tecnicaltest.technicaltest.model.entity.User;
 import com.tecnicaltest.technicaltest.response.LoginResponse;
+import com.tecnicaltest.technicaltest.service.IUserService;
 import com.tecnicaltest.technicaltest.service.impl.AuthenticationServiceImpl;
 import com.tecnicaltest.technicaltest.service.impl.JwtServiceImpl;
+import com.tecnicaltest.technicaltest.util.interfaces.IMapper;
+import com.tecnicaltest.technicaltest.util.interfaces.IUserValidation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
-  private final JwtServiceImpl jwtService;
-
-  private final AuthenticationServiceImpl authenticationService;
-
-  public AuthenticationController(JwtServiceImpl jwtService, AuthenticationServiceImpl authenticationService) {
-    this.jwtService = jwtService;
-    this.authenticationService = authenticationService;
-  }
+  @Autowired
+  private JwtServiceImpl jwtService;
+  @Autowired
+  private AuthenticationServiceImpl authenticationService;
+  @Autowired
+  private IMapper mapper;
+  @Autowired
+  private IUserValidation validation;
+  @Autowired
+  private IUserService userService;
 
   @PostMapping("/signup")
-  public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
-    User registeredUser = authenticationService.signup(registerUserDto);
+  public ResponseEntity<?> create(@RequestBody UserVO userVO) {
+    User user = mapper.userVoToEntity(userVO);
 
-    return ResponseEntity.ok(registeredUser);
+    if (validation.isEmailExist(user))
+      return ResponseEntity.badRequest().body(Collections.singletonMap("msg", "El correo ya se encuentra registrado"));
+    return ResponseEntity.status(HttpStatus.CREATED).body(mapper.entityToDto(userService.save(user)));
   }
 
   @PostMapping("/login")
-  public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
-    User authenticatedUser = authenticationService.authenticate(loginUserDto);
+  public ResponseEntity<LoginResponse> authenticate(@RequestBody UserVO userVO) {
+    User authenticatedUser = authenticationService.authenticate(userVO);
     String jwtToken = jwtService.generateToken(authenticatedUser);
     LoginResponse loginResponse = new LoginResponse();
     loginResponse.setToken(jwtToken);
